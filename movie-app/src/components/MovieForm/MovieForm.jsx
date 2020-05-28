@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export function MovieForm() {
+const MovieForm = () {
 
   return (
     <form className="new-movie">
+    <input type="submit"/>
       <input placeholder="Enter movie name..."></input>
       <p>Aquí irán los tags de género</p>
       <input placeholder="Enter genre..."></input>
@@ -11,3 +12,5 @@ export function MovieForm() {
     </form>
   );
 }
+
+export default MovieForm

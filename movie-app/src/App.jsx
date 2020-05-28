@@ -1,6 +1,4 @@
 import React from "react";
-
-import { MovieForm } from "./components/MovieForm/MovieForm.jsx";
 import { MoviesList } from "./components/MoviesList/MoviesList";
 
 import { createGlobalStyle } from "styled-components";
@@ -41,7 +39,6 @@ const App = () => {
           <h1>MovieApp</h1>
         </header>
         <section>
-          <MovieForm />
           <MoviesList />
         </section>
       </div>
