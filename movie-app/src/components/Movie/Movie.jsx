@@ -2,7 +2,13 @@ import React, { useState } from "react";
 
 import { generate as id } from "shortid";
 
-const Movie = ({ viewed, name, genres, handleDeleteMovie, handleViewedMovie }) => {
+const Movie = ({
+  viewed,
+  name,
+  genres,
+  handleDeleteMovie,
+  handleViewedMovie,
+}) => {
   const [movieName, setName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -27,14 +33,16 @@ const Movie = ({ viewed, name, genres, handleDeleteMovie, handleViewedMovie }) =
         </td>
         <td>
           {isEditing ? (
-            <input type="text" onChange={handleName} value={movieName} />
+            <input onChange={handleName} type="text" value={movieName} />
           ) : (
             movieName
           )}
         </td>
         <td>
           {genres.map((genre) => (
-            <span key={id()}>{genre}</span>
+            <span className="genre" key={id()}>
+              {genre}{" "}
+            </span>
           ))}
         </td>
         <td onClick={handleEdit}>
