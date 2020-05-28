@@ -8,7 +8,6 @@ const MovieForm = ({ handleSubmit }) => {
     if (e.keyCode === 13) {
       let currentGenres = [...genres];
       currentGenres.push(e.target.value);
-      console.log(currentGenres);
       setGenres(currentGenres);
       e.target.value = ""
     }
@@ -17,7 +16,7 @@ const MovieForm = ({ handleSubmit }) => {
   const handleErase = () => {
     setGenres([])
   }
-  
+
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e, genres)} className="new-movie">

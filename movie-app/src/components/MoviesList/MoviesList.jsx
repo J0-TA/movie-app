@@ -26,6 +26,8 @@ const movies = [
 
 export function MoviesList() {
   const [allMovies, setAllMovies] = useState(movies);
+  const [filter, setFilter] = useState('')
+  const [isReset, setReset] = useState(true)
 
   const handleDelete = (id) => {
     let currentMovies = [...allMovies];
@@ -43,44 +45,54 @@ export function MoviesList() {
     setAllMovies(currentMovies);
   };
 
-  const handleSubmit = (e,genres) => {
-    e.preventDefault()
-    let currentMovies = [...allMovies]
+  const handleSubmit = (e, genres) => {
+    e.preventDefault();
+    let currentMovies = [...allMovies];
     let newMovie = {
       name: e.target.name.value,
       genres,
-      viewed:false,
-      id: id() 
-    }
-    currentMovies.push(newMovie)
+      viewed: false,
+      id: id(),
+    };
+    currentMovies.push(newMovie);
 
-    setAllMovies(currentMovies)
+    setAllMovies(currentMovies);
 
-    e.target.name.value = ""
+    e.target.name.value = "";
   };
 
+  const handleFilter = (e) => {
+    setFilter(e.target.value)
+    setReset(false)
+  }
+  const handleReset = (e) => {
+    e.preventDefault()
+    setFilter('')
+    setReset(true)
+    // falta la lógica para quitar el check del botón que estuviese seleccionado
+  }
   return (
     <>
       <MovieForm handleSubmit={handleSubmit} />
       <h2>WatchList</h2>
       <div className="list-handlers">
-        <div className="genre-filters">
+        <form onSubmit={handleReset} onChange={handleFilter} className="genre-filters">
           <div>
-            <input type="radio" id="horror" name="genre" value="horror" />
+            <input type="radio" id="horror" name="genre" value="Horror" />
             <label htmlFor="horror">Horror</label>
           </div>
           <div>
-            <input type="radio" id="romance" name="genre" value="romance" />
+            <input type="radio" id="romance" name="genre" value="Romance" />
             <label htmlFor="romance">Romance</label>
           </div>
           <div>
-            <input type="radio" id="comedy" name="genre" value="comedy" />
+            <input type="radio" id="comedy" name="genre" value="Comedy" />
             <label htmlFor="comedy">Comedy</label>
           </div>
           <div>
             <button>Reset</button>
           </div>
-        </div>
+        </form>
         <input type="search" name="search" id="searchbar" />
       </div>
       <table className="movies-list">
@@ -94,20 +106,38 @@ export function MoviesList() {
           </tr>
         </thead>
         <tbody>
-          {allMovies
+          {filter !== ''
+          ? (
+            allMovies
+            .filter(movie => movie.genres.includes(filter)))
             .sort(function (a, b) {
               return a.viewed - b.viewed;
             })
             .map((movie) => (
               <Movie
                 genres={movie.genres}
-                key={movie.id}
                 handleDeleteMovie={() => handleDelete(movie.id)}
                 handleViewedMovie={() => handleViewed(movie.id)}
+                key={movie.id}
                 name={movie.name}
                 viewed={movie.viewed}
               />
-            ))}
+            ))
+             : (
+            allMovies
+            .sort(function (a, b) {
+              return a.viewed - b.viewed;
+            })
+            .map((movie) => (
+              <Movie
+                genres={movie.genres}
+                handleDeleteMovie={() => handleDelete(movie.id)}
+                handleViewedMovie={() => handleViewed(movie.id)}
+                key={movie.id}
+                name={movie.name}
+                viewed={movie.viewed}
+              />
+            )))}
         </tbody>
       </table>
     </>
